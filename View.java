@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.*;
 
 class View extends JFrame {
 
@@ -22,20 +23,56 @@ class View extends JFrame {
     Model model;
     boolean disable;
     JPanel myPanel;
+    JPanel myPanel2;
+    JLabel winLable;
+    JButton reset;
 
     public View(Model model) {
         super("Tic Tac Toe");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Reset Button
+        Font font1 = new Font("SansSerif", Font.BOLD, 24);
+        winLable= new JLabel("");
+        winLable.setFont(font1);
+        //winLable.setVisible(false);
+        reset = new JButton();
+        reset.setFont(font1);
+        reset.setText("Reset Game");
+        reset.setSize(50,50);
+        reset.setPreferredSize(new Dimension(10, 60));
+        //........................
+        
+        //Panel 1
         myPanel  = new JPanel();
         myPanel.setLayout(grid);        
-        myPanel.setPreferredSize(new Dimension(600, 600));
+        myPanel.setPreferredSize(new Dimension(700, 500));
         buttons = new JButton[9];
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = new JButton(new ImageIcon(this.getClass().getResource("N.png")));//new ImageIcon()
+            buttons[i] = new JButton(new ImageIcon(this.getClass().getResource("")));//new ImageIcon()
             buttons[i].getPreferredSize();
             myPanel.add(buttons[i]);
         }
-        add(myPanel);
+        //..........................
+        //Panel 2
+        myPanel2= new JPanel(new GridBagLayout());
+        myPanel2.setPreferredSize(new Dimension(500, 100));
+        myPanel2.add(winLable);
+        myPanel2.add(reset);
+        
+        GridBagConstraints gc2 = new GridBagConstraints();
+        gc2.fill = GridBagConstraints.HORIZONTAL;
+        gc2.weightx = 1;
+        gc2.gridx = 0;
+        gc2.gridy = 0;
+        gc2.ipadx = 10;
+        myPanel2.add(winLable, gc2);
+        gc2.gridx = 1;
+        gc2.gridy = 0;
+        myPanel2.add(reset, gc2);
+        //..............................
+        //Main Frame
+        this.add(myPanel,BorderLayout.CENTER);
+        this.add(myPanel2,BorderLayout.PAGE_END);
         pack();
         setVisible(true);
         this.model = model;
@@ -110,23 +147,56 @@ class View extends JFrame {
                 player2[7]++;//p2 col 3
         }
         
-        for (int i = 0; i < player1.length; i++) {
-            if(player1[i]==3 | player2[i]==3)
+            
+       for (int i = 0; i < player1.length; i++) {
+            if(player1[i]==3)
             {
                 //this.disableAll();
+                winLable.setText("Palyer X Won");
                 return true;
             }
         }
-        return false;
+       
+       for (int i = 0; i < player2.length; i++) {
+            if(player2[i]==3)
+            {
+                //this.disableAll();
+                winLable.setText("Palyer O Won");
+                return true;
+            }
+        }
+       int i=0;
+       for (i=0; i < player1.length; i++) 
+        {
+            if(player1[i]==0 | player2[i]==0  )
+                break;
+        }
+       if(i==player1.length)
+           winLable.setText("It's a Tie");
+       
+       return false;
+       
     }
 
     public void stateChecking() { 
         if (model.movesCounter == 9 || isWin() )
             disable = true;
+        
     }
 
     public void disableAll() {
-        for (int i = 0; i < buttons.length; i++)
-            buttons[i].setEnabled(false);
+        for (JButton button : buttons) {
+            button.setEnabled(false);
+        }
+    }
+    public void resetAll() {
+        for (JButton button : buttons) {
+            button.setText("");
+            button.setIcon(model.n);
+            button.setEnabled(true);
+            winLable.setText("");
+            model.resetCounter();
+            disable=false;
+        }
     }
 }

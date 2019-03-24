@@ -28,11 +28,20 @@ public class Controller implements ActionListener{
     private void addActionListeners() {
         for (int i = 0; i < view.buttons.length; i++)
             view.buttons[i].addActionListener(this);
+        view.reset.addActionListener(this);
     }
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (view.disable == false) {
+        
+        if( ( (JButton) e.getSource()).getText()   == "Reset Game")
+        {
+            view.resetAll();
+        }
+        else
+        {
+            if (view.disable == false) {
             mModel.whoseTurn();
             ((JButton) e.getSource()).setText(mModel.userSymbol);
             if(mModel.userSymbol.equals(" ")    )
@@ -50,9 +59,9 @@ public class Controller implements ActionListener{
             if (view.disable == true) {
                 view.disableAll();
             }
-            
-            
         }
+        }
+        
     }
     
 }

@@ -14,13 +14,14 @@ import javax.swing.ImageIcon;
 public class Model {
     public int movesCounter;
     public String userSymbol;
-    ImageIcon x,o;
+    ImageIcon x,o,n;
     
 
     public Model() {
         movesCounter = 0;
         x= new ImageIcon( this.getClass().getResource("X.png")) ;
         o= new ImageIcon( this.getClass().getResource("O.png")) ;
+        n= new ImageIcon( this.getClass().getResource("")) ;
     }
 
     public void whoseTurn() {
@@ -32,6 +33,9 @@ public class Model {
 
     public void updateCounter(){
         movesCounter++; 
+    }
+    public void resetCounter(){
+        movesCounter=0; 
     }
     
 }
