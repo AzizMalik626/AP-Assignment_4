@@ -28,7 +28,7 @@ class View extends JFrame {
     JButton reset;
 
     public View(Model model) {
-        super("Tic Tac Toe");
+        super("Tic Tac Toe by Aziz Malik");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Reset Button
         Font font1 = new Font("SansSerif", Font.BOLD, 24);
